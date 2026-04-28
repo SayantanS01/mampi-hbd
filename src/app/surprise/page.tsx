@@ -30,8 +30,8 @@ Will you be mine… always? ❤️`,
     const results = await db.select().from(siteConfig).limit(1);
     if (results.length > 0) {
       config = {
-        surprisePrelude: results[0].surprisePrelude ?? config.surprisePrelude,
-        surpriseQuestion: results[0].surpriseQuestion ?? config.surpriseQuestion,
+        surprisePrelude: results[0].surprisePrelude || config.surprisePrelude,
+        surpriseQuestion: results[0].surpriseQuestion || config.surpriseQuestion,
       };
     }
   } catch (error) {

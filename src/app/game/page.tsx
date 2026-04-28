@@ -15,9 +15,9 @@ export default async function GamePage() {
     const results = await db.select().from(siteConfig).limit(1);
     if (results.length > 0) {
       config = {
-        gameTitle: results[0].gameTitle ?? config.gameTitle,
-        gameDescription: results[0].gameDescription ?? config.gameDescription,
-        gameWinningMessage: results[0].gameWinningMessage ?? config.gameWinningMessage,
+        gameTitle: results[0].gameTitle || config.gameTitle,
+        gameDescription: results[0].gameDescription || config.gameDescription,
+        gameWinningMessage: results[0].gameWinningMessage || config.gameWinningMessage,
       };
     }
   } catch (error) {
