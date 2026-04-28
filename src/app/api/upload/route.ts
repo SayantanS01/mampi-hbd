@@ -3,6 +3,7 @@ import { writeFile } from "fs/promises";
 import path from "path";
 import { db } from "@/db";
 import { siteConfig } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
     // Update site config with new music URL
     const existing = await db.select().from(siteConfig).limit(1);
     if (existing.length > 0) {
-      await db.update(siteConfig).set({ musicUrl: publicUrl }).where({ id: existing[0].id });
+      await db.update(siteConfig).set({ musicUrl: publicUrl }).where(eq(siteConfig.id, existing[0].id));
     } else {
       await db.insert(siteConfig).values({ musicUrl: publicUrl });
     }
