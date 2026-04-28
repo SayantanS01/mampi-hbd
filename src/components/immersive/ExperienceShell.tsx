@@ -161,12 +161,6 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       intervalRef.current = null;
     }
 
-    // Stop MP3
-    if (bgMusicRef.current) {
-      bgMusicRef.current.pause();
-      bgMusicRef.current.currentTime = 0;
-    }
-
     const context = audioContextRef.current;
     const masterGain = masterGainRef.current;
 
@@ -197,11 +191,6 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       }
 
       void context.resume();
-
-      // Play MP3
-      if (bgMusicRef.current) {
-        void bgMusicRef.current.play();
-      }
 
       const now = context.currentTime;
       const targetVolume = swell ? 0.34 : 0.17;
@@ -255,17 +244,23 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       {musicUrl && !musicUrl.includes("spotify.com") && (
         <div style={{ position: "absolute", width: "1px", height: "1px", overflow: "hidden", opacity: 0, pointerEvents: "none", zIndex: -1 }}>
           <Player
+            key={musicUrl}
             url={musicUrl}
             playing={musicPlaying}
             loop
-            volume={0.4}
-            width="10px"
-            height="10px"
+            volume={0.6}
+            width="200px"
+            height="200px"
             onEnded={() => setMusicPlaying(false)}
+            onError={(e: any) => console.error("Music Player Error:", e)}
             playsinline
             config={{
               youtube: {
-                playerVars: { origin: typeof window !== "undefined" ? window.location.origin : "" }
+                playerVars: { 
+                  origin: typeof window !== "undefined" ? window.location.origin : "",
+                  modestbranding: 1,
+                  controls: 0
+                }
               } as any
             }}
           />
@@ -273,15 +268,18 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       )}
       
       {musicUrl && musicUrl.includes("spotify.com") && musicPlaying && (
-        <div className="spotify-widget-container" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 99 }}>
+        <div className="spotify-widget-container" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 99, textAlign: "right" }}>
           <iframe 
             src={musicUrl.replace("open.spotify.com", "open.spotify.com/embed").split("?")[0]} 
             width="300" 
             height="80" 
             frameBorder="0" 
             allow="encrypted-media; autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            style={{ borderRadius: "14px", boxShadow: "0 18px 50px rgba(0,0,0,0.4)" }}
+            style={{ borderRadius: "14px", boxShadow: "0 18px 50px rgba(0,0,0,0.4)", marginBottom: "8px" }}
           />
+          <p style={{ fontSize: "10px", opacity: 0.7, color: "var(--text-color)", margin: 0, paddingRight: "8px" }}>
+            Note: Click Play on the Spotify widget to start music 🎵
+          </p>
         </div>
       )}
 
