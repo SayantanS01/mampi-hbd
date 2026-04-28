@@ -20,10 +20,10 @@ export default async function HomePage() {
     const results = await db.select().from(siteConfig).limit(1);
     if (results.length > 0) {
       config = {
-        heroEyebrow: results[0].heroEyebrow,
-        heroTitle: results[0].heroTitle,
-        heroSubtitle: results[0].heroSubtitle,
-        heroDescription: results[0].heroDescription,
+        heroEyebrow: results[0].heroEyebrow ?? config.heroEyebrow,
+        heroTitle: results[0].heroTitle ?? config.heroTitle,
+        heroSubtitle: results[0].heroSubtitle ?? config.heroSubtitle,
+        heroDescription: results[0].heroDescription ?? config.heroDescription,
       };
     }
   } catch (error) {

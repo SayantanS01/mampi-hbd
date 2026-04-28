@@ -28,7 +28,7 @@ export default async function GalleryPage() {
         {items.map((item) => (
           <div key={item.id} className="gallery-card glass-panel">
             <div className="image-wrapper">
-              <img src={item.imageUrl} alt={item.caption} />
+              <img src={item.imageUrl ?? ""} alt={item.caption ?? ""} />
               <div className="overlay">
                 <p>{item.caption}</p>
                 <span>{item.category}</span>

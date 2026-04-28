@@ -56,7 +56,9 @@ export default function StoryClient({ milestones }: { milestones: any[] }) {
               <span className="milestone-date">{m.date}</span>
               <h3 className="milestone-title">{m.title}</h3>
               <p className="milestone-desc">{m.description}</p>
-              {m.imageUrl && <img src={m.imageUrl} alt={m.title} className="milestone-image" />}
+              {m.imageUrl && (
+                <img src={m.imageUrl ?? ""} alt={m.title} className="milestone-image shadow-lg" />
+              )}
             </div>
             <div className="milestone-dot"></div>
           </div>
