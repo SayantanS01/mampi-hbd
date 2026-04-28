@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   description: "A magical interactive birthday love experience made for Mampi Biswas.",
 };
 
+export const viewport: import("next").Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   let musicUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
   
