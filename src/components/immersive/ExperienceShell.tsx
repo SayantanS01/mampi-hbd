@@ -252,23 +252,39 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       <ThreeDreamscape theme={theme} />
       <CustomCursor theme={theme} />
       
-      {musicUrl && !musicUrl.includes("spotify.com") && (
-        <Player
-          url={musicUrl}
-          playing={musicPlaying}
-          loop
-          volume={0.4}
-          width="0"
-          height="0"
-          onEnded={() => setMusicPlaying(false)}
-          style={{ display: "none" }}
-          playsinline
-          config={{
-            youtube: {
-              playerVars: { autoplay: 1, origin: typeof window !== "undefined" ? window.location.origin : "" }
-            } as any
-          }}
-        />
+      {musicUrl && !musicUrl.includes("spotify.com") && !musicUrl.includes("youtube.com") && !musicUrl.includes("youtu.be") && (
+        <div style={{ position: "absolute", width: "1px", height: "1px", overflow: "hidden", opacity: 0, pointerEvents: "none", zIndex: -1 }}>
+          <Player
+            url={musicUrl}
+            playing={musicPlaying}
+            loop
+            volume={0.4}
+            width="10px"
+            height="10px"
+            onEnded={() => setMusicPlaying(false)}
+            playsinline
+          />
+        </div>
+      )}
+
+      {musicUrl && (musicUrl.includes("youtube.com") || musicUrl.includes("youtu.be")) && musicPlaying && (
+        <div className="youtube-widget-container" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 99, borderRadius: "14px", overflow: "hidden", boxShadow: "0 18px 50px rgba(0,0,0,0.4)" }}>
+          <Player
+            url={musicUrl}
+            playing={musicPlaying}
+            loop
+            volume={0.4}
+            width="300px"
+            height="170px"
+            onEnded={() => setMusicPlaying(false)}
+            playsinline
+            config={{
+              youtube: {
+                playerVars: { autoplay: 1, origin: typeof window !== "undefined" ? window.location.origin : "" }
+              } as any
+            }}
+          />
+        </div>
       )}
       
       {musicUrl && musicUrl.includes("spotify.com") && musicPlaying && (
