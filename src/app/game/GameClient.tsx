@@ -53,16 +53,6 @@ export default function GameClient({ config }: { config: any }) {
   // Game 3 State
   const [hiddenHearts, setHiddenHearts] = useState<{ id: number; x: number; y: number; found: boolean }[]>([]);
 
-  // Photos (6 Photo Holder)
-  const [photos] = useState([
-    "https://images.unsplash.com/photo-1518199266791-5375a83190b7",
-    "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f",
-    "https://images.unsplash.com/photo-1522673607200-164883eecd18",
-    "https://images.unsplash.com/photo-1494774157365-9e04c6720e47",
-    "https://images.unsplash.com/photo-1490750967868-88aa3386c946",
-    "https://images.unsplash.com/photo-1464347744102-11db6282f854",
-  ]);
-
   const resetGame = () => {
     setGameState("idle");
     setScore(0);
@@ -254,20 +244,6 @@ export default function GameClient({ config }: { config: any }) {
         </section>
       )}
 
-      <section className="gaming-memories">
-        <h2 className="section-title">Our Gaming Memories</h2>
-        <p className="section-subtitle">A collection of moments from our play-time.</p>
-        <div className="photo-holder-grid">
-          {photos.map((url, i) => (
-            <div key={i} className="gaming-photo-slot glass-panel">
-              <div className="photo-wrapper">
-                <img src={url} alt={`Memory ${i + 1}`} />
-                <div className="polaroid-label">Day {i + 1}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

@@ -8,6 +8,8 @@ import { CustomCursor } from "./CustomCursor";
 import { ThreeDreamscape } from "./ThreeDreamscape";
 import { isBirthdayTheme, themeStorageKey, themes } from "./theme-data";
 import type { BirthdayTheme } from "./theme-data";
+import { BrandLogo } from "./BrandLogo";
+import { DynamicFavicon } from "./DynamicFavicon";
 
 const navLinks = [
   { href: "/", label: "Home", icon: "🏠" },
@@ -242,6 +244,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
 
   return (
     <div className="experience-shell" data-theme={theme}>
+      <DynamicFavicon theme={theme} />
       <ThreeDreamscape theme={theme} />
       <CustomCursor theme={theme} />
       
@@ -262,7 +265,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
 
       <header className="site-chrome">
         <Link className="brand-mark" href="/" aria-label="Go to birthday home">
-          <span className="brand-orb">MB</span>
+          <BrandLogo theme={theme} className="logo-vibe" />
           <span>
             <strong>Mampi&apos;s World</strong>
             <small>made with love</small>

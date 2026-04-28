@@ -15,9 +15,12 @@ export default async function GalleryPage() {
     console.error("Failed to fetch gallery items:", error);
     // Fallback
     items = [
-      { id: 1, title: "Sweet Moments", imageUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7", caption: "Every smile is a treasure", category: "special" },
-      { id: 2, title: "Beautiful Days", imageUrl: "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f", caption: "Exploring the world together", category: "travel" },
-      { id: 3, title: "Quiet Evenings", imageUrl: "https://images.unsplash.com/photo-1522673607200-164883eecd18", caption: "Peace is found in your presence", category: "general" },
+      { id: 1, title: "Memory 01", imageUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7", caption: "Every smile is a treasure", category: "special" },
+      { id: 2, title: "Memory 02", imageUrl: "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f", caption: "Exploring the world together", category: "travel" },
+      { id: 3, title: "Memory 03", imageUrl: "https://images.unsplash.com/photo-1522673607200-164883eecd18", caption: "Peace is found in your presence", category: "general" },
+      { id: 4, title: "Memory 04", imageUrl: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47", caption: "Warmth of your hand in mine", category: "special" },
+      { id: 5, title: "Memory 05", imageUrl: "https://images.unsplash.com/photo-1490750967868-88aa3386c946", caption: "The day felt like a dream", category: "travel" },
+      { id: 6, title: "Memory 06", imageUrl: "https://images.unsplash.com/photo-1464347744102-11db6282f854", caption: "Forever starting today", category: "general" },
     ];
   }
 
