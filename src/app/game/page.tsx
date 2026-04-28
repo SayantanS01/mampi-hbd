@@ -16,7 +16,7 @@ type FallingHeart = {
 const heartEmojis = ["💖", "💕", "💗", "💘", "❤️", "💝"];
 const gameSeconds = 30;
 const goalScore = 15;
-const winningMessage = "You caught my heart… just like in real life ❤️";
+const winningMessage = "You didn’t just win the game… you’ve already won my heart ❤️";
 
 function createHeart(): FallingHeart {
   return {
@@ -44,13 +44,13 @@ export default function GamePage() {
   const [timeLeft, setTimeLeft] = useState(gameSeconds);
   const [running, setRunning] = useState(false);
   const [played, setPlayed] = useState(false);
-  const [message, setMessage] = useState("Catch 15 hearts before the timer ends.");
+  const [message, setMessage] = useState("Catch as many as you can before time runs out!");
 
   const startGame = () => {
     setHearts([]);
     setScore(0);
     setTimeLeft(gameSeconds);
-    setMessage("Catch the falling love hearts, Mampi! 💕");
+    setMessage("Hearts are falling from above… just like my feelings for you. 💕");
     setPlayed(true);
     setRunning(true);
   };
@@ -121,8 +121,8 @@ export default function GamePage() {
     <main className="page game-page">
       <section className="page-hero compact-hero">
         <p className="eyebrow">A tiny love game</p>
-        <h1>Catch the Love Hearts 💕</h1>
-        <p>Click the falling hearts before they drift away. Every collected heart is one more little promise for Mampi.</p>
+        <h1>Catch My Love 💕</h1>
+        <p>Hearts are falling from above… just like my feelings for you. Catch as many as you can before time runs out!</p>
       </section>
 
       <section className="game-panel glass-panel" aria-label="Catch the Love Hearts game">

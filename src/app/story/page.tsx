@@ -14,8 +14,27 @@ export default async function StoryPage() {
     console.error("Failed to fetch milestones:", error);
     // Fallback if DB is not ready
     storyMilestones = [
-      { id: 1, date: "The Beginning", title: "When We First Met", description: "A moment that changed everything. The world felt softer, and my heart knew it found its home.", imageUrl: "" },
-      { id: 2, date: "First Date", title: "Magic in the Air", description: "Laughter, long walks, and the realization that you are the most special person I've ever known.", imageUrl: "" },
+      { 
+        id: 1, 
+        date: "Memory 01", 
+        title: "The First Time I Saw You", 
+        description: "I still remember that moment like it just happened yesterday... It wasn’t just seeing you… it was feeling something shift inside me...", 
+        imageUrl: "" 
+      },
+      { 
+        id: 2, 
+        date: "Memory 02", 
+        title: "When You Became My Happiness", 
+        description: "Slowly, without even realizing it… you became a part of my everyday thoughts...", 
+        imageUrl: "" 
+      },
+      { 
+        id: 3, 
+        date: "Memory 03", 
+        title: "Moments I’ll Never Forget", 
+        description: "It’s not just the big moments… it’s the small ones that stay forever...", 
+        imageUrl: "" 
+      },
     ];
   }
 

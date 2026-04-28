@@ -26,9 +26,9 @@ export default function GalleryClient({ items }: { items: any[] }) {
   return (
     <main className="page gallery-page">
       <section className="page-hero compact-hero">
-        <p className="eyebrow">A little museum of us</p>
+        <p className="eyebrow">Our Beautiful Moments</p>
         <h1>Memory Gallery</h1>
-        <p>Tap any floating polaroid to open it. Every card is a memory we share.</p>
+        <p>Every picture here is more than just an image… it’s a piece of a moment, a feeling, a memory that lives in my heart. Some are full of laughter… some are soft and quiet… but all of them have one thing in common— you… the most beautiful part of my life.</p>
       </section>
 
       <section className="gallery-grid" aria-label="Photo placeholders">

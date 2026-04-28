@@ -6,13 +6,21 @@ import type { CSSProperties } from "react";
 type RevealState = "waiting" | "building" | "revealed";
 type CelebrationState = "none" | "yes" | "forever";
 
-const proposalText = `Mampi Biswas,
+const proposalText = `Mampi Biswas…
 
-You are not just my love… you are my future.
+You are not just someone who came into my life… you are the reason my life feels complete.
 
-Every moment with you makes me want more of this life, but only if it’s with you. I don’t want just memories… I want a lifetime with you.
+Every moment with you makes me realize this is what I’ve been searching for all along.
 
-Will you assign your life with mine, walk beside me in every moment, and stay with me forever?
+I don’t just want memories with you… I want a lifetime.
+
+A lifetime of laughter… of growing together… of standing beside each other no matter what comes.
+
+I want you in every version of my future.
+
+So today… I’m asking you something straight from my heart—
+
+Will you assign your life with mine… walk beside me through everything… and stay with me forever?
 
 Will you be mine… always? ❤️`;
 
