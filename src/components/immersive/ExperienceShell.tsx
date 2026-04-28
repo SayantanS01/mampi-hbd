@@ -59,15 +59,27 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       <CustomCursor theme={theme} />
       
       {musicUrl && (
-        <div style={{ position: "absolute", width: "1px", height: "1px", overflow: "hidden", opacity: 0, pointerEvents: "none", zIndex: -1 }}>
+        <div 
+          style={{ 
+            position: "fixed", 
+            bottom: "0", 
+            right: "0", 
+            width: "200px", 
+            height: "200px", 
+            overflow: "hidden", 
+            opacity: 0.001, 
+            pointerEvents: "none", 
+            zIndex: -1 
+          }}
+        >
           <Player
             key={musicUrl}
             url={musicUrl}
             playing={musicPlaying}
             loop
             volume={0.8}
-            width="200px"
-            height="200px"
+            width="100%"
+            height="100%"
             onEnded={() => setMusicPlaying(false)}
             playsinline
             config={{
@@ -76,7 +88,9 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
                   origin: typeof window !== "undefined" ? window.location.origin : "",
                   modestbranding: 1,
                   controls: 0,
-                  autoplay: 0 // Controlled by playing prop
+                  autoplay: 0,
+                  rel: 0,
+                  showinfo: 0
                 }
               }
             }}
