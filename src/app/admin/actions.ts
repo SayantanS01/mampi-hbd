@@ -14,13 +14,13 @@ export async function updateSiteConfig(data: any) {
   } else {
     await db.insert(siteConfig).values(updateData);
   }
-  revalidatePath("/");
+  revalidatePath("/", "layout");
 }
 
 // Milestones
 export async function addMilestone(data: any) {
   await db.insert(milestones).values(data);
-  revalidatePath("/story");
+  revalidatePath("/story", "layout");
 }
 
 export async function deleteMilestone(id: number) {

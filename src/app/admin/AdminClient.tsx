@@ -29,6 +29,7 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
     try {
       await updateSiteConfig(config);
       alert("General settings updated successfully! ✨");
+      window.location.reload();
     } catch (err) {
       alert("Failed to update settings.");
     }
