@@ -58,46 +58,6 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       <ThreeDreamscape theme={theme} />
       <CustomCursor theme={theme} />
       
-      {musicUrl && (
-        <div 
-          style={{ 
-            position: "fixed", 
-            bottom: "0", 
-            right: "0", 
-            width: "200px", 
-            height: "200px", 
-            overflow: "hidden", 
-            opacity: 0.001, 
-            pointerEvents: "none", 
-            zIndex: -1 
-          }}
-        >
-          <Player
-            key={musicUrl}
-            url={musicUrl}
-            playing={musicPlaying}
-            loop
-            volume={0.8}
-            width="100%"
-            height="100%"
-            onEnded={() => setMusicPlaying(false)}
-            playsinline
-            config={{
-              youtube: {
-                playerVars: { 
-                  origin: typeof window !== "undefined" ? window.location.origin : "",
-                  modestbranding: 1,
-                  controls: 0,
-                  autoplay: 0,
-                  rel: 0,
-                  showinfo: 0
-                }
-              }
-            }}
-          />
-        </div>
-      )}
-
       <div className={`loading-screen ${loading ? "" : "is-hidden"}`} aria-hidden={!loading}>
         <div className="loader-heart">♥</div>
         <p>Opening Mampi&apos;s magical birthday world…</p>
@@ -143,10 +103,36 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
             ))}
           </div>
 
-          <button className={`music-toggle ${musicPlaying ? "is-playing" : ""}`} onClick={toggleMusic} type="button">
-            <span>{musicPlaying ? "♪" : "♫"}</span>
-            {musicPlaying ? "Pause Music" : "Play Music"}
-          </button>
+          {musicUrl && (
+            <div className="header-player-wrapper" style={{ 
+              width: "180px", 
+              height: "45px", 
+              borderRadius: "12px", 
+              overflow: "hidden", 
+              border: "1px solid var(--border)",
+              boxShadow: "0 8px 24px var(--shadow)",
+              background: "var(--panel-strong)"
+            }}>
+              <Player
+                url={musicUrl}
+                playing={musicPlaying}
+                volume={0.8}
+                width="100%"
+                height="100%"
+                onPlay={() => setMusicPlaying(true)}
+                onPause={() => setMusicPlaying(false)}
+                config={{
+                  youtube: {
+                    playerVars: { 
+                      modestbranding: 1,
+                      controls: 1,
+                      autoplay: 0
+                    }
+                  }
+                }}
+              />
+            </div>
+          )}
         </div>
       </header>
 
