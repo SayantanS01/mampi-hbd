@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updateSiteConfig, addMilestone, addGalleryItem, updateLetter, deleteMilestone, deleteGalleryItem } from "./actions";
 
@@ -11,6 +12,7 @@ interface AdminClientProps {
 }
 
 export default function AdminClient({ initialConfig, initialMilestones, initialGallery, initialLetter }: AdminClientProps) {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("config");
   const [loading, setLoading] = useState(false);
 
@@ -28,8 +30,8 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
     setLoading(true);
     try {
       await updateSiteConfig(config);
-      alert("General settings updated successfully! ✨");
-      window.location.reload();
+      alert("Settings updated successfully! ✨");
+      router.refresh();
     } catch (err) {
       alert("Failed to update settings.");
     }
@@ -42,8 +44,8 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
     try {
       await addMilestone(newMilestone);
       setNewMilestone({ date: "", title: "", description: "", imageUrl: "" });
-      alert("New memory added to the story! 📖");
-      window.location.reload();
+      alert("New memory added! 📖");
+      router.refresh();
     } catch (err) {
       alert("Failed to add milestone.");
     }
@@ -56,8 +58,8 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
     try {
       await addGalleryItem(newGallery);
       setNewGallery({ title: "", imageUrl: "", caption: "", category: "general" });
-      alert("Photo added to the gallery! 📸");
-      window.location.reload();
+      alert("Photo added! 📸");
+      router.refresh();
     } catch (err) {
       alert("Failed to add gallery item.");
     }
@@ -70,7 +72,8 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
     const paragraphs = letter.split("\n\n").filter(p => p.trim() !== "");
     try {
       await updateLetter(paragraphs);
-      alert("Your heart has been written to the letter! 💌");
+      alert("Letter updated! 💌");
+      router.refresh();
     } catch (err) {
       alert("Failed to update letter.");
     }
@@ -78,15 +81,15 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
   };
 
   const handleDeleteMilestone = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this memory?")) return;
+    if (!confirm("Delete this memory?")) return;
     await deleteMilestone(id);
-    window.location.reload();
+    router.refresh();
   };
 
   const handleDeleteGallery = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this photo?")) return;
+    if (!confirm("Delete this photo?")) return;
     await deleteGalleryItem(id);
-    window.location.reload();
+    router.refresh();
   };
 
   return (
