@@ -28,7 +28,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
   const pathname = usePathname();
   const [theme, setTheme] = useState<BirthdayTheme>("pastel");
   const [loading, setLoading] = useState(true);
-  const [musicPlaying, setMusicPlaying] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(true);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem(themeStorageKey);
@@ -119,6 +119,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
                 volume={0.8}
                 width="100%"
                 height="100%"
+                muted={false}
                 onPlay={() => setMusicPlaying(true)}
                 onPause={() => setMusicPlaying(false)}
                 config={{
@@ -126,7 +127,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
                     playerVars: { 
                       modestbranding: 1,
                       controls: 1,
-                      autoplay: 0
+                      autoplay: 1
                     }
                   }
                 }}
