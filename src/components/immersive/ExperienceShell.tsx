@@ -267,8 +267,8 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
         </div>
       )}
 
-      {musicUrl && (musicUrl.includes("youtube.com") || musicUrl.includes("youtu.be")) && musicPlaying && (
-        <div className="youtube-widget-container" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 99, borderRadius: "14px", overflow: "hidden", boxShadow: "0 18px 50px rgba(0,0,0,0.4)" }}>
+      {musicUrl && (musicUrl.includes("youtube.com") || musicUrl.includes("youtu.be")) && (
+        <div className="youtube-widget-container" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 99, borderRadius: "14px", overflow: "hidden", boxShadow: "0 18px 50px rgba(0,0,0,0.4)", display: musicPlaying ? "block" : "none" }}>
           <Player
             url={musicUrl}
             playing={musicPlaying}
