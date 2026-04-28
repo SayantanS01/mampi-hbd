@@ -28,8 +28,19 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
   const handleConfigSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Auto-convert Google Drive links if necessary
+    let finalUrl = config.musicUrl;
+    if (finalUrl.includes("drive.google.com")) {
+      const match = finalUrl.match(/\/d\/([^/]+)/);
+      if (match && match[1]) {
+        finalUrl = `https://drive.google.com/uc?export=download&id=${match[1]}`;
+        setConfig({ ...config, musicUrl: finalUrl });
+      }
+    }
+
     try {
-      await updateSiteConfig(config);
+      await updateSiteConfig({ ...config, musicUrl: finalUrl });
       alert("Settings updated successfully! ✨");
       router.refresh();
     } catch (err) {
