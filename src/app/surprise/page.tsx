@@ -6,10 +6,8 @@ export const dynamic = "force-dynamic";
 
 export default async function SurprisePage() {
   let config = {
-    surprisePrelude: "I saved the most important feeling for last.",
-    surpriseQuestion: `Mampi Biswas…
-
-You are not just someone who came into my life… you are the reason my life feels complete.
+    surprisePrelude: "Mampi Biswas…",
+    surpriseQuestion: `You are not just someone who came into my life… you are the reason my life feels complete.
 
 Every moment with you makes me realize this is what I’ve been searching for all along.
 

@@ -164,20 +164,20 @@ export default function GameClient({ config }: { config: any }) {
         <section className="game-selection-grid">
           <div className="game-card glass-panel" onClick={() => startGame(1)}>
             <div className="game-icon">💕</div>
-            <h3>Catch My Love</h3>
-            <p>Hearts are falling just like my feelings for you.</p>
+            <h3>Catch My Love 💕</h3>
+            <p>Hearts are falling from above… just like my feelings for you. Catch as many as you can before time runs out!</p>
             <button className="primary-action">Play Now</button>
           </div>
           <div className="game-card glass-panel" onClick={() => startGame(2)}>
             <div className="game-icon">💖</div>
-            <h3>Memory of Us</h3>
-            <p>Match the symbols of our love story.</p>
+            <h3>Memory of Us 💖</h3>
+            <p>Match the cards to reveal hidden memories. Each pair holds a piece of our story.</p>
             <button className="primary-action">Play Now</button>
           </div>
           <div className="game-card glass-panel" onClick={() => startGame(3)}>
             <div className="game-icon">💌</div>
-            <h3>Find My Hidden Love</h3>
-            <p>Can you find all the love hidden in this world?</p>
+            <h3>Find My Hidden Love 💌</h3>
+            <p>Find all the hidden hearts on the screen. Love is always there… even when it hides.</p>
             <button className="primary-action">Play Now</button>
           </div>
         </section>
@@ -236,7 +236,11 @@ export default function GameClient({ config }: { config: any }) {
               <div className="win-screen">
                 <div className="win-icon">🏆</div>
                 <h2>Congratulations!</h2>
-                <p>{activeGame === 1 ? config.gameWinningMessage : activeGame === 2 ? "You remember us perfectly… just like I remember every moment with you ❤️" : "You found all the hidden love… just like you found your way into my heart ❤️"}</p>
+                <p>
+                  {activeGame === 1 ? config.gameWinningMessage : 
+                   activeGame === 2 ? "You remember us perfectly… just like I remember every moment with you ❤️" : 
+                   "You found all the hidden love… just like you found your way into my heart ❤️"}
+                </p>
                 <button className="primary-action" onClick={() => setActiveGame(null)}>Finish Games</button>
               </div>
             )}

@@ -27,8 +27,14 @@ export default function GalleryClient({ items }: { items: any[] }) {
     <main className="page gallery-page">
       <section className="page-hero compact-hero">
         <p className="eyebrow">Our Beautiful Moments</p>
-        <h1>Memory Gallery</h1>
-        <p>Every picture here is more than just an image… it’s a piece of a moment, a feeling, a memory that lives in my heart. Some are full of laughter… some are soft and quiet… but all of them have one thing in common— you… the most beautiful part of my life.</p>
+        <h1>Our Beautiful Moments</h1>
+        <p>
+          Every picture here is more than just an image… it’s a piece of a moment, a feeling, a memory that lives in my heart.
+          <br /><br />
+          Some are full of laughter… some are soft and quiet… but all of them have one thing in common—
+          <br /><br />
+          you… the most beautiful part of my life.
+        </p>
       </section>
 
       <section className="gallery-grid" aria-label="Photo placeholders">
