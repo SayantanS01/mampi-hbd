@@ -10,6 +10,7 @@ import { isBirthdayTheme, themeStorageKey, themes } from "./theme-data";
 import type { BirthdayTheme } from "./theme-data";
 import { BrandLogo } from "./BrandLogo";
 import { DynamicFavicon } from "./DynamicFavicon";
+import ReactPlayer from "react-player";
 
 const navLinks = [
   { href: "/", label: "Home", icon: "🏠" },
@@ -248,14 +249,36 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       <ThreeDreamscape theme={theme} />
       <CustomCursor theme={theme} />
       
-      {musicUrl && (
-        <audio 
-          ref={bgMusicRef} 
-          src={musicUrl} 
-          loop 
+      {musicUrl && !musicUrl.includes("spotify.com") && (
+        <ReactPlayer
+          url={musicUrl}
+          playing={musicPlaying}
+          loop
+          volume={0.4}
+          width="0"
+          height="0"
           onEnded={() => setMusicPlaying(false)}
-          aria-hidden="true"
+          style={{ display: "none" }}
+          playsinline
+          config={{
+            youtube: {
+              playerVars: { autoplay: 1, origin: typeof window !== "undefined" ? window.location.origin : "" }
+            }
+          }}
         />
+      )}
+      
+      {musicUrl && musicUrl.includes("spotify.com") && musicPlaying && (
+        <div className="spotify-widget-container" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 99 }}>
+          <iframe 
+            src={musicUrl.replace("open.spotify.com", "open.spotify.com/embed").split("?")[0]} 
+            width="300" 
+            height="80" 
+            frameBorder="0" 
+            allow="encrypted-media; autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            style={{ borderRadius: "14px", boxShadow: "0 18px 50px rgba(0,0,0,0.4)" }}
+          />
+        </div>
       )}
 
       <div className={`loading-screen ${loading ? "" : "is-hidden"}`} aria-hidden={!loading}>
