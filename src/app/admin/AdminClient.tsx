@@ -214,10 +214,10 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
           {activeTab === "music" && (
             <div className="admin-section">
               <h2>Background Music</h2>
-              <p className="section-hint">Link to a YouTube video, Spotify track, or MP3 file to play as background music.</p>
+              <p className="section-hint">Link to a YouTube video or an MP3 file to play as background music.</p>
               <form onSubmit={handleConfigSubmit} className="admin-form-stunning">
                 <div className="form-group">
-                  <label>YouTube / Spotify / MP3 URL</label>
+                  <label>YouTube Link or MP3 URL</label>
                   <input type="text" value={config.musicUrl} onChange={e => setConfig({...config, musicUrl: e.target.value})} placeholder="https://www.youtube.com/watch?v=..." />
                 </div>
                 <button type="submit" className="primary-action" disabled={loading}>Update Music ✨</button>
