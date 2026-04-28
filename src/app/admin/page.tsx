@@ -6,10 +6,10 @@ import AdminClient from "./AdminClient";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const config = await db.select().from(siteConfig).limit(1);
-  const storyMilestones = await db.select().from(milestones).orderBy(asc(milestones.order));
-  const gallery = await db.select().from(galleryItems).orderBy(asc(galleryItems.order));
-  const letter = await db.select().from(letterContent).orderBy(asc(letterContent.order));
+  let initialConfig: any = null;
+  let storyMilestones: any[] = [];
+  let gallery: any[] = [];
+  let letter: any[] = [];
 
   const defaultConfig = {
     heroEyebrow: "Mampi,",
@@ -24,9 +24,20 @@ export default async function AdminPage() {
     musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
   };
 
+  try {
+    const config = await db.select().from(siteConfig).limit(1);
+    initialConfig = config[0] || defaultConfig;
+    storyMilestones = await db.select().from(milestones).orderBy(asc(milestones.order));
+    gallery = await db.select().from(galleryItems).orderBy(asc(galleryItems.order));
+    letter = await db.select().from(letterContent).orderBy(asc(letterContent.order));
+  } catch (error) {
+    console.error("AdminPage: Database connection failed.", error);
+    initialConfig = defaultConfig;
+  }
+
   return (
     <AdminClient 
-      initialConfig={config[0] ?? defaultConfig}
+      initialConfig={initialConfig}
       initialMilestones={storyMilestones}
       initialGallery={gallery}
       initialLetter={letter}
