@@ -7,64 +7,42 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function StoryClient({ milestones }: { milestones: any[] }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const items = containerRef.current.querySelectorAll(".milestone-item");
-    
-    items.forEach((item, index) => {
-      const isEven = index % 2 === 0;
-      
-      gsap.fromTo(item, 
-        { 
-          opacity: 0, 
-          x: isEven ? -100 : 100 
-        }, 
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: item,
-            start: "top 80%",
-            end: "top 20%",
-            scrub: true,
-          }
-        }
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
-  }, [milestones]);
-
   return (
-    <div className="story-container" ref={containerRef}>
-      <header className="story-header">
-        <h1 className="story-title">Our Love Story</h1>
-        <p className="story-subtitle">Every moment with you is a treasure I keep forever.</p>
-      </header>
+    <main className="page story-page">
+      <section className="page-hero compact-hero">
+        <p className="eyebrow">Chapter by chapter</p>
+        <h1>Our Love Story</h1>
+        <p>A soft timeline of how you became my favorite person, my happiness, and the dream I never want to wake up from.</p>
+      </section>
 
-      <div className="timeline">
-        <div className="timeline-line"></div>
+      <section className="story-timeline" aria-label="Love story timeline">
         {milestones.map((m, index) => (
-          <div key={m.id} className={`milestone-item ${index % 2 === 0 ? "left" : "right"}`}>
-            <div className="milestone-content glass-panel">
-              <span className="milestone-date">{m.date}</span>
-              <h3 className="milestone-title">{m.title}</h3>
-              <p className="milestone-desc">{m.description}</p>
+          <article className="timeline-item reveal-card" key={m.id} style={{ "--delay": `${index * 0.16}s` } as React.CSSProperties}>
+            <div className="timeline-marker">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+            </div>
+            <div className="timeline-content glass-panel">
+              <p className="timeline-accent">{m.date}</p>
+              <h2>{m.title}</h2>
+              <p>{m.description}</p>
               {m.imageUrl && (
                 <img src={m.imageUrl ?? ""} alt={m.title} className="milestone-image shadow-lg" />
               )}
+              <div className="memory-thread" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
             </div>
-            <div className="milestone-dot"></div>
-          </div>
+          </article>
         ))}
-      </div>
+      </section>
 
-    </div>
+      <section className="story-ending glass-panel">
+        <span aria-hidden="true">💖</span>
+        <h2>And the story is still becoming more beautiful…</h2>
+        <p>Today is your birthday, but somehow I feel like I am the one who received the gift — because life gave me you.</p>
+      </section>
+    </main>
   );
 }

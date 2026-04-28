@@ -42,7 +42,7 @@ export default async function HomePage() {
           <p className="hero-description">
             {config.heroDescription}
           </p>
-
+ 
           <div className="hero-actions" aria-label="Start experience">
             <Link className="primary-action" href="/story">
               Begin Our Story 💞
@@ -51,7 +51,7 @@ export default async function HomePage() {
               Keep a Secret 🎁
             </Link>
           </div>
-
+ 
           <div className="promise-row">
             {promises.map((promise) => (
               <div className="promise-card" key={promise}>
@@ -61,7 +61,7 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-
+ 
         <div className="hero-3d-stage" aria-hidden="true">
           <div className="orbit orbit-one" />
           <div className="orbit orbit-two" />
@@ -74,7 +74,7 @@ export default async function HomePage() {
           <span className="floating-symbol symbol-four">🌙</span>
         </div>
       </section>
-
+ 
       <section className="home-note glass-panel">
         <p>
           Use the theme switcher anytime — romantic pastel, dark luxury, cute cartoon, or dreamy galaxy — and turn on the music when you want the moment to feel even more magical.

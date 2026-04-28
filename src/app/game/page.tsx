@@ -1,120 +1,177 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
+
+type FallingHeart = {
+  emoji: string;
+  id: number;
+  left: number;
+  size: number;
+  speed: number;
+  spin: number;
+  top: number;
+};
+
+const heartEmojis = ["💖", "💕", "💗", "💘", "❤️", "💝"];
+const gameSeconds = 30;
+const goalScore = 15;
+const winningMessage = "You caught my heart… just like in real life ❤️";
+
+function createHeart(): FallingHeart {
+  return {
+    emoji: heartEmojis[Math.floor(Math.random() * heartEmojis.length)],
+    id: Math.floor(Date.now() + Math.random() * 100_000),
+    left: 5 + Math.random() * 90,
+    size: 28 + Math.random() * 22,
+    speed: 1.3 + Math.random() * 1.65,
+    spin: -20 + Math.random() * 40,
+    top: -12,
+  };
+}
+
+function submitScore(score: number) {
+  void fetch("/api/celebration", {
+    body: JSON.stringify({ score, source: "catch-the-love-hearts" }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  }).catch(() => undefined);
+}
 
 export default function GamePage() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [hearts, setHearts] = useState<FallingHeart[]>([]);
   const [score, setScore] = useState(0);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(gameSeconds);
+  const [running, setRunning] = useState(false);
+  const [played, setPlayed] = useState(false);
+  const [message, setMessage] = useState("Catch 15 hearts before the timer ends.");
+
+  const startGame = () => {
+    setHearts([]);
+    setScore(0);
+    setTimeLeft(gameSeconds);
+    setMessage("Catch the falling love hearts, Mampi! 💕");
+    setPlayed(true);
+    setRunning(true);
+  };
+
+  const collectHeart = (id: number) => {
+    if (!running) {
+      return;
+    }
+
+    setHearts((current) => current.filter((heart) => heart.id !== id));
+    setScore((current) => {
+      const nextScore = current + 1;
+      if (nextScore >= goalScore) {
+        setRunning(false);
+        setHearts([]);
+        setMessage(winningMessage);
+        submitScore(nextScore);
+      }
+      return nextScore;
+    });
+  };
 
   useEffect(() => {
-    if (!gameStarted || gameOver || !canvasRef.current) return;
+    if (!running) {
+      return undefined;
+    }
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const timer = window.setInterval(() => {
+      setTimeLeft((current) => Math.max(0, current - 1));
+    }, 1000);
 
-    let animationFrame: number;
-    let hearts: any[] = [];
-    let playerX = canvas.width / 2;
+    return () => window.clearInterval(timer);
+  }, [running]);
 
-    const spawnHeart = () => {
-      hearts.push({
-        x: Math.random() * (canvas.width - 30) + 15,
-        y: -20,
-        speed: 2 + Math.random() * 3,
-        size: 15 + Math.random() * 15,
-      });
-    };
+  useEffect(() => {
+    if (!running) {
+      return undefined;
+    }
 
-    const update = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const spawner = window.setInterval(() => {
+      setHearts((current) => [...current.slice(-20), createHeart()]);
+    }, 430);
 
-      // Spawn hearts
-      if (Math.random() < 0.05) spawnHeart();
-
-      // Draw & Update Hearts
-      hearts.forEach((h, i) => {
-        h.y += h.speed;
-        
-        // Draw heart shape
-        ctx.fillStyle = "#ff6fae";
-        ctx.beginPath();
-        const topCurveHeight = h.size * 0.3;
-        ctx.moveTo(h.x, h.y + topCurveHeight);
-        ctx.bezierCurveTo(h.x, h.y, h.x - h.size / 2, h.y, h.x - h.size / 2, h.y + topCurveHeight);
-        ctx.bezierCurveTo(h.x - h.size / 2, h.y + (h.size + topCurveHeight) / 2, h.x, h.y + (h.size + topCurveHeight) / 2, h.x, h.y + h.size);
-        ctx.bezierCurveTo(h.x, h.y + (h.size + topCurveHeight) / 2, h.x + h.size / 2, h.y + (h.size + topCurveHeight) / 2, h.x + h.size / 2, h.y + topCurveHeight);
-        ctx.bezierCurveTo(h.x + h.size / 2, h.y, h.x, h.y, h.x, h.y + topCurveHeight);
-        ctx.fill();
-
-        // Collision check
-        if (h.y + h.size > canvas.height - 40 && Math.abs(h.x - playerX) < 40) {
-          setScore(s => s + 1);
-          hearts.splice(i, 1);
-        } else if (h.y > canvas.height) {
-          hearts.splice(i, 1);
-        }
-      });
-
-      // Draw Player (Catcher)
-      ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-      ctx.beginPath();
-      ctx.roundRect(playerX - 40, canvas.height - 30, 80, 20, 10);
-      ctx.fill();
-
-      animationFrame = requestAnimationFrame(update);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      playerX = e.clientX - rect.left;
-      if (playerX < 40) playerX = 40;
-      if (playerX > canvas.width - 40) playerX = canvas.width - 40;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    animationFrame = requestAnimationFrame(update);
-
-    // Timer for game over
-    const gameTimer = setTimeout(() => {
-      setGameOver(true);
-    }, 30000);
+    const gravity = window.setInterval(() => {
+      setHearts((current) => current.map((heart) => ({ ...heart, top: heart.top + heart.speed })).filter((heart) => heart.top < 112));
+    }, 48);
 
     return () => {
-      cancelAnimationFrame(animationFrame);
-      window.removeEventListener("mousemove", handleMouseMove);
-      clearTimeout(gameTimer);
+      window.clearInterval(spawner);
+      window.clearInterval(gravity);
     };
-  }, [gameStarted, gameOver]);
+  }, [running]);
+
+  useEffect(() => {
+    if (running && timeLeft === 0) {
+      setRunning(false);
+      setHearts([]);
+      if (score > 0) {
+        setMessage(winningMessage);
+        submitScore(score);
+      } else {
+        setMessage("Even if you missed them, my heart has already chosen you ❤️");
+      }
+    }
+  }, [running, score, timeLeft]);
 
   return (
-    <div className="game-container">
-      <div className="game-box glass-panel">
-        {!gameStarted ? (
-          <div className="game-overlay">
-            <h1>Catch the Love Hearts 💕</h1>
-            <p>Catch as many falling hearts as you can in 30 seconds!</p>
-            <button onClick={() => setGameStarted(true)}>Start Game</button>
-          </div>
-        ) : gameOver ? (
-          <div className="game-overlay">
-            <h1>Game Over!</h1>
-            <p>You caught {score} hearts for Mampi!</p>
-            <button onClick={() => { setGameStarted(true); setGameOver(false); setScore(0); }}>Play Again</button>
-          </div>
-        ) : (
-          <>
-            <div className="game-ui">
-              <span>Score: {score}</span>
-              <span>Keep catching!</span>
-            </div>
-            <canvas ref={canvasRef} width={600} height={400} />
-          </>
-        )}
-      </div>
+    <main className="page game-page">
+      <section className="page-hero compact-hero">
+        <p className="eyebrow">A tiny love game</p>
+        <h1>Catch the Love Hearts 💕</h1>
+        <p>Click the falling hearts before they drift away. Every collected heart is one more little promise for Mampi.</p>
+      </section>
 
-    </div>
+      <section className="game-panel glass-panel" aria-label="Catch the Love Hearts game">
+        <div className="game-stats">
+          <div>
+            <span>Score</span>
+            <strong>{score}</strong>
+          </div>
+          <div>
+            <span>Timer</span>
+            <strong>{timeLeft}s</strong>
+          </div>
+          <div>
+            <span>Goal</span>
+            <strong>{goalScore}</strong>
+          </div>
+        </div>
+
+        <div className={`game-arena ${running ? "is-running" : ""}`}>
+          {hearts.map((heart) => (
+            <button
+              aria-label="Catch love heart"
+              className="falling-heart"
+              key={heart.id}
+              onClick={() => collectHeart(heart.id)}
+              style={
+                {
+                  "--heart-spin": `${heart.spin}deg`,
+                  fontSize: `${heart.size}px`,
+                  left: `${heart.left}%`,
+                  top: `${heart.top}%`,
+                } as CSSProperties
+              }
+              type="button"
+            >
+              {heart.emoji}
+            </button>
+          ))}
+
+          {!running ? (
+            <div className="game-overlay">
+              <p aria-live="polite">{message}</p>
+              <button className="primary-action" onClick={startGame} type="button">
+                {played ? "Play Again 💗" : "Start Game 💕"}
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </section>
+    </main>
   );
 }

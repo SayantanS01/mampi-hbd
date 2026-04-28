@@ -1,38 +1,54 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function LetterClient({ paragraphs }: { paragraphs: any[] }) {
-  const [visibleIndex, setVisibleIndex] = useState(-1);
+  const content = paragraphs.map(p => p.paragraph).join("\n\n");
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [runId, setRunId] = useState(0);
+  const visibleLetter = useMemo(() => content.slice(0, visibleCount), [visibleCount, content]);
+  const complete = visibleCount >= content.length;
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setVisibleIndex(prev => {
-        if (prev < paragraphs.length - 1) return prev + 1;
-        clearInterval(timer);
-        return prev;
+    setVisibleCount(0);
+    const interval = window.setInterval(() => {
+      setVisibleCount((current) => {
+        if (current >= content.length) {
+          window.clearInterval(interval);
+          return current;
+        }
+        return current + 1;
       });
-    }, 1500);
+    }, 24);
 
-    return () => clearInterval(timer);
-  }, [paragraphs]);
+    return () => window.clearInterval(interval);
+  }, [runId, content]);
 
   return (
-    <div className="letter-container">
-      <div className="letter-paper glass-panel">
-        <div className="letter-wax-seal">M</div>
-        
-        {paragraphs.map((p, index) => (
-          <p key={p.id} className={`letter-paragraph ${index <= visibleIndex ? "is-visible" : ""}`}>
-            {p.paragraph}
-          </p>
-        ))}
+    <main className="page letter-page">
+      <section className="page-hero compact-hero">
+        <p className="eyebrow">A letter from my heart</p>
+        <h1>For Mampi</h1>
+        <p>Let the words appear slowly, like a heartbeat learning how to say forever.</p>
+      </section>
 
-        <div className={`letter-signature ${visibleIndex === paragraphs.length - 1 ? "is-visible" : ""}`}>
-          ❤️
-        </div>
-      </div>
-
-    </div>
+      <section className="letter-stage" aria-label="Typewriter love letter">
+        <div className="letter-glow" aria-hidden="true" />
+        <article className="letter-card glass-panel">
+          <div className="letter-stamp">💌</div>
+          <pre className="typewriter-text">
+            <span>{visibleLetter}</span>
+            <span className={`typewriter-cursor ${complete ? "is-soft" : ""}`} aria-hidden="true">
+              |
+            </span>
+          </pre>
+          <div className="letter-actions">
+            <button className="secondary-action" onClick={() => setRunId((id) => id + 1)} type="button">
+              Read Again ✨
+            </button>
+          </div>
+        </article>
+      </section>
+    </main>
   );
 }
