@@ -3,6 +3,8 @@ import { letterContent } from "@/db/schema";
 import { asc } from "drizzle-orm";
 import LetterClient from "./LetterClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function LetterPage() {
   let paragraphs = [];
   

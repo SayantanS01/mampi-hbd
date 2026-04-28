@@ -3,6 +3,8 @@ import { milestones } from "@/db/schema";
 import { asc } from "drizzle-orm";
 import StoryClient from "./StoryClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function StoryPage() {
   let storyMilestones = [];
   

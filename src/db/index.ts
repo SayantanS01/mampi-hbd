@@ -3,8 +3,8 @@ import { Pool } from "pg";
 
 const databaseUrl = process.env.DATABASE_URL;
 
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is required");
+if (!databaseUrl && process.env.NODE_ENV === "production") {
+  console.warn("DATABASE_URL is missing. DB operations will fail.");
 }
 
 const globalForDb = globalThis as typeof globalThis & {

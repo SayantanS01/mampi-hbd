@@ -2,6 +2,8 @@ import { db } from "@/db";
 import { siteConfig } from "@/db/schema";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const promises = [
     "A tiny universe made just for your smile.",
