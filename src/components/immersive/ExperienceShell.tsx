@@ -12,6 +12,9 @@ import { BrandLogo } from "./BrandLogo";
 import { DynamicFavicon } from "./DynamicFavicon";
 import ReactPlayer from "react-player";
 
+// Bypass React 19 TS mismatch for react-player
+const Player = ReactPlayer as any;
+
 const navLinks = [
   { href: "/", label: "Home", icon: "🏠" },
   { href: "/story", label: "Love Story", icon: "💞" },
@@ -250,7 +253,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
       <CustomCursor theme={theme} />
       
       {musicUrl && !musicUrl.includes("spotify.com") && (
-        <ReactPlayer
+        <Player
           url={musicUrl}
           playing={musicPlaying}
           loop
@@ -263,7 +266,7 @@ export function ExperienceShell({ children, musicUrl }: { children: ReactNode; m
           config={{
             youtube: {
               playerVars: { autoplay: 1, origin: typeof window !== "undefined" ? window.location.origin : "" }
-            }
+            } as any
           }}
         />
       )}
