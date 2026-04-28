@@ -1571,7 +1571,8 @@ select {
 
 @media (max-width: 1040px) {
   .site-chrome {
-    align-items: stretch;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .brand-mark {
@@ -1620,6 +1621,23 @@ select {
     top: 8px;
     width: calc(100% - 16px);
     border-radius: 22px;
+  }
+
+  .chrome-controls {
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+  }
+
+  .theme-switcher {
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    max-width: 100%;
+  }
+
+  .theme-switcher::-webkit-scrollbar {
+    display: none;
   }
 
   .brand-orb {
