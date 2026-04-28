@@ -217,13 +217,58 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
           {activeTab === "music" && (
             <div className="admin-section">
               <h2>Background Music</h2>
-              <p className="section-hint">Link to a YouTube video or an MP3 file to play as background music.</p>
+              <p className="section-hint">Link to a YouTube video, a direct MP3 URL, or upload your own song below.</p>
+              
+              <div className="admin-form-stunning" style={{ marginBottom: "2rem" }}>
+                <div className="form-group">
+                  <label>Upload MP3 Song</label>
+                  <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                    <input 
+                      type="file" 
+                      accept="audio/mp3,audio/mpeg" 
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        
+                        setLoading(true);
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        
+                        try {
+                          const res = await fetch("/api/upload", {
+                            method: "POST",
+                            body: formData,
+                          });
+                          const data = await res.json();
+                          if (data.success) {
+                            alert("Song uploaded successfully! 🎵");
+                            setConfig({...config, musicUrl: data.url});
+                            router.refresh();
+                          } else {
+                            alert(data.error || "Upload failed");
+                          }
+                        } catch (err) {
+                          alert("Failed to upload song.");
+                        } finally {
+                          setLoading(false);
+                        }
+                      }} 
+                    />
+                  </div>
+                  <p style={{ fontSize: "11px", opacity: 0.6, marginTop: "8px" }}>
+                    Note: For live sites, large files may be restricted. Direct links are recommended for reliability.
+                  </p>
+                </div>
+              </div>
+
+              <div className="admin-divider" style={{ margin: "2rem 0" }}><span>OR USE A LINK</span></div>
+
               <form onSubmit={handleConfigSubmit} className="admin-form-stunning">
                 <div className="form-group">
-                  <label>YouTube Link or MP3 URL</label>
+                  <label>Direct YouTube or MP3 Link</label>
                   <input type="text" value={config.musicUrl} onChange={e => setConfig({...config, musicUrl: e.target.value})} placeholder="https://www.youtube.com/watch?v=..." />
                 </div>
-                <button type="submit" className="primary-action" disabled={loading}>Update Music ✨</button>
+                <button type="submit" className="primary-action" disabled={loading}>Update Music Link ✨</button>
               </form>
             </div>
           )}
