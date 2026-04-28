@@ -7,11 +7,12 @@ import { revalidatePath } from "next/cache";
 
 // Site Config
 export async function updateSiteConfig(data: any) {
+  const { id, updatedAt, ...updateData } = data;
   const existing = await db.select().from(siteConfig).limit(1);
   if (existing.length > 0) {
-    await db.update(siteConfig).set(data).where(eq(siteConfig.id, existing[0].id));
+    await db.update(siteConfig).set(updateData).where(eq(siteConfig.id, existing[0].id));
   } else {
-    await db.insert(siteConfig).values(data);
+    await db.insert(siteConfig).values(updateData);
   }
   revalidatePath("/");
 }
