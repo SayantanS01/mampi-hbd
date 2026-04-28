@@ -84,6 +84,7 @@ export default function SurprisePage() {
           <p className="celebration-note">Happy Birthday, my forever. I love you, Mampi. ❤️</p>
         </div>
       )}
+
     </div>
   );
 }

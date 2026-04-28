@@ -2,6 +2,6 @@
   "dialect": "postgresql",
   "schema": "./src/db/schema.ts",
   "dbCredentials": {
-    "url": "postgres://adfd2e7631445c9a94325329e4fb011f78c119e75cdb15d7c4807b6f4ba8ff17:sk_aFkwSIXWL5MPIF5FNOtTI@db.prisma.io:5432/postgres?sslmode=require"
+    "url": "postgresql://postgres:postgres@127.0.0.1:5432/app_db"
   }
 }

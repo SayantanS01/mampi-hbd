@@ -62,6 +62,7 @@ export default function StoryClient({ milestones }: { milestones: any[] }) {
           </div>
         ))}
       </div>
+
     </div>
   );
 }

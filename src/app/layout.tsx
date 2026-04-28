@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { ExperienceShell } from "@/components/immersive/ExperienceShell";
 import "./globals.css";
-import "./components.css";
 
 export const metadata: Metadata = {
   title: "Happy Birthday Mampi ❤️",
