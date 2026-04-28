@@ -8,6 +8,15 @@ export const siteConfig = pgTable("site_config", {
   heroTitle: text("hero_title").notNull().default("Happy Birthday Mampi"),
   heroSubtitle: text("hero_subtitle").notNull().default("A little world made just for you"),
   heroDescription: text("hero_description").notNull().default("Step into a glowing love story full of floating hearts, memories, music, surprises, and one question that comes straight from my heart."),
+  // Game customization
+  gameTitle: text("game_title").notNull().default("Catch My Love 💕"),
+  gameDescription: text("game_description").notNull().default("Hearts are falling from above… just like my feelings for you. Catch as many as you can before time runs out!"),
+  gameWinningMessage: text("game_winning_message").notNull().default("You didn’t just win the game… you’ve already won my heart ❤️"),
+  // Surprise customization
+  surprisePrelude: text("surprise_prelude").notNull().default("I saved the most important feeling for last."),
+  surpriseQuestion: text("surprise_question").notNull().default("Will you assign your life with mine… walk beside me through everything… and stay with me forever?"),
+  // Music customization
+  musicUrl: text("music_url").default("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 

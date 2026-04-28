@@ -87,7 +87,7 @@ function startPad(context: AudioContext, destination: GainNode, theme: BirthdayT
   });
 }
 
-export function ExperienceShell({ children }: { children: ReactNode }) {
+export function ExperienceShell({ children, musicUrl }: { children: ReactNode; musicUrl?: string }) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<BirthdayTheme>("pastel");
   const [loading, setLoading] = useState(true);
@@ -97,6 +97,7 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
   const intervalRef = useRef<number | null>(null);
   const padRef = useRef<OscillatorNode[]>([]);
   const themeRef = useRef<BirthdayTheme>("pastel");
+  const bgMusicRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem(themeStorageKey);
@@ -154,6 +155,12 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
       intervalRef.current = null;
     }
 
+    // Stop MP3
+    if (bgMusicRef.current) {
+      bgMusicRef.current.pause();
+      bgMusicRef.current.currentTime = 0;
+    }
+
     const context = audioContextRef.current;
     const masterGain = masterGainRef.current;
 
@@ -184,6 +191,12 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
       }
 
       void context.resume();
+
+      // Play MP3
+      if (bgMusicRef.current) {
+        void bgMusicRef.current.play();
+      }
+
       const now = context.currentTime;
       const targetVolume = swell ? 0.34 : 0.17;
       masterGain.gain.cancelScheduledValues(now);
@@ -231,6 +244,16 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
     <div className="experience-shell" data-theme={theme}>
       <ThreeDreamscape theme={theme} />
       <CustomCursor theme={theme} />
+      
+      {musicUrl && (
+        <audio 
+          ref={bgMusicRef} 
+          src={musicUrl} 
+          loop 
+          onEnded={() => setMusicPlaying(false)}
+          aria-hidden="true"
+        />
+      )}
 
       <div className={`loading-screen ${loading ? "" : "is-hidden"}`} aria-hidden={!loading}>
         <div className="loader-heart">♥</div>

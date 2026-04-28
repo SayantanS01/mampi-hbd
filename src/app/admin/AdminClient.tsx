@@ -107,6 +107,15 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
           <button className={activeTab === "gallery" ? "is-active" : ""} onClick={() => setActiveTab("gallery")}>
             <span>📸</span> Gallery
           </button>
+          <button className={activeTab === "game" ? "is-active" : ""} onClick={() => setActiveTab("game")}>
+            <span>🎮</span> Game
+          </button>
+          <button className={activeTab === "surprise" ? "is-active" : ""} onClick={() => setActiveTab("surprise")}>
+            <span>🎁</span> Surprise
+          </button>
+          <button className={activeTab === "music" ? "is-active" : ""} onClick={() => setActiveTab("music")}>
+            <span>🎵</span> Music
+          </button>
           <button className={activeTab === "letter" ? "is-active" : ""} onClick={() => setActiveTab("letter")}>
             <span>💌</span> Love Letter
           </button>
@@ -157,6 +166,60 @@ export default function AdminClient({ initialConfig, initialMilestones, initialG
                 <button type="submit" className="primary-action" disabled={loading}>
                   {loading ? "Saving..." : "Save Changes ✨"}
                 </button>
+              </form>
+            </div>
+          )}
+
+          {activeTab === "game" && (
+            <div className="admin-section">
+              <h2>Game Customization</h2>
+              <p className="section-hint">Customize the "Catch My Love" game experience.</p>
+              <form onSubmit={handleConfigSubmit} className="admin-form-stunning">
+                <div className="form-group">
+                  <label>Game Title</label>
+                  <input type="text" value={config.gameTitle} onChange={e => setConfig({...config, gameTitle: e.target.value})} />
+                </div>
+                <div className="form-group">
+                  <label>Game Description</label>
+                  <textarea value={config.gameDescription} onChange={e => setConfig({...config, gameDescription: e.target.value})} rows={3} />
+                </div>
+                <div className="form-group">
+                  <label>Winning Message</label>
+                  <input type="text" value={config.gameWinningMessage} onChange={e => setConfig({...config, gameWinningMessage: e.target.value})} />
+                </div>
+                <button type="submit" className="primary-action" disabled={loading}>Update Game ✨</button>
+              </form>
+            </div>
+          )}
+
+          {activeTab === "surprise" && (
+            <div className="admin-section">
+              <h2>Surprise Page Customization</h2>
+              <p className="section-hint">Customize the secret ending and proposal.</p>
+              <form onSubmit={handleConfigSubmit} className="admin-form-stunning">
+                <div className="form-group">
+                  <label>Prelude Text</label>
+                  <textarea value={config.surprisePrelude} onChange={e => setConfig({...config, surprisePrelude: e.target.value})} rows={3} />
+                </div>
+                <div className="form-group">
+                  <label>Proposal Question</label>
+                  <textarea value={config.surpriseQuestion} onChange={e => setConfig({...config, surpriseQuestion: e.target.value})} rows={6} />
+                </div>
+                <button type="submit" className="primary-action" disabled={loading}>Update Surprise ✨</button>
+              </form>
+            </div>
+          )}
+
+          {activeTab === "music" && (
+            <div className="admin-section">
+              <h2>Background Music</h2>
+              <p className="section-hint">Link to an MP3 file to play as background music.</p>
+              <form onSubmit={handleConfigSubmit} className="admin-form-stunning">
+                <div className="form-group">
+                  <label>Music MP3 URL</label>
+                  <input type="text" value={config.musicUrl} onChange={e => setConfig({...config, musicUrl: e.target.value})} placeholder="https://.../music.mp3" />
+                </div>
+                <button type="submit" className="primary-action" disabled={loading}>Update Music ✨</button>
               </form>
             </div>
           )}
