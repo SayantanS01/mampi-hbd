@@ -6,6 +6,8 @@ import "./globals.css";
 import { db } from "@/db";
 import { siteConfig } from "@/db/schema";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Happy Birthday Mampi ❤️",
   description: "A magical interactive birthday love experience made for Mampi Biswas.",
